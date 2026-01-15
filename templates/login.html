@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 440px;
+            padding: 44px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            color: #5e5e5e;
+            font-size: 24px;
+            font-weight: 400;
+        }
+        
+        .logo-emulator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1b1b1b;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #5e5e5e;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1b1b1b;
+            font-size: 15px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #8c8c8c;
+            border-radius: 2px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        
+        input[type="text"]:hover,
+        input[type="password"]:hover {
+            border-color: #0078d4;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #0078d4;
+            border-width: 2px;
+            padding: 11px;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: #0067d4;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #005a9e;
+        }
+        
+        .error {
+            color: #e81123;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        
+        .info-box {
+            background: #f3f2f1;
+            border-left: 4px solid #0078d4;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #323130;
+        }
+        
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .test-credentials {
+            background: #fff4ce;
+            border-left: 4px solid #ffb900;
+            padding: 12px;
+            margin-top: 16px;
+            font-size: 12px;
+            border-radius: 2px;
+        }
+        
+        .test-credentials code {
+            background: rgba(0,0,0,0.05);
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>Microsoft Entra</h1>
+            <div class="logo-emulator">EMULATOR - TEST ENVIRONMENT</div>
+        </div>
+        
+        <h2>Sign in</h2>
+        <p class="subtitle">to continue to application</p>
+        
+        <form method="POST" action="/{{ request.path_params.get('tenant', 'common') }}/oauth2/v2.0/authorize">
+            <input type="hidden" name="client_id" value="{{ client_id }}">
+            <input type="hidden" name="redirect_uri" value="{{ redirect_uri }}">
+            <input type="hidden" name="scope" value="{{ scope }}">
+            {% if state %}
+            <input type="hidden" name="state" value="{{ state }}">
+            {% endif %}
+            {% if nonce %}
+            <input type="hidden" name="nonce" value="{{ nonce }}">
+            {% endif %}
+            {% if code_challenge %}
+            <input type="hidden" name="code_challenge" value="{{ code_challenge }}">
+            {% endif %}
+            <input type="hidden" name="response_type" value="{{ response_type }}">
+            
+            <div class="form-group">
+                <label for="username">Email, phone, or Skype</label>
+                <input type="text" id="username" name="username" required autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">Sign in</button>
+        </form>
+        
+        <div class="test-credentials">
+            <strong>🧪 Test Credentials</strong>
+            <p style="margin-top: 8px;">Username: <code>test@contoso.onmicrosoft.com</code></p>
+            <p style="margin-top: 4px;">Password: <code>Test123!</code></p>
+        </div>
+        
+        <div class="info-box">
+            <strong>ℹ️ This is a TEST environment</strong>
+            This is an emulator for development purposes only. Do not use real credentials.
+        </div>
+    </div>
+</body>
+</html>

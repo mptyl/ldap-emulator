@@ -1,0 +1,36 @@
+services:
+  entra-emulator:
+    build: .
+    container_name: entra-emulator
+    ports:
+      - "8029:8029"
+    environment:
+      - EMULATOR_HOST=0.0.0.0
+      - EMULATOR_PORT=8029
+      - TENANT_ID=contoso
+      - ISSUER_URL=http://localhost:8029
+      - TOKEN_EXPIRY_SECONDS=3600
+      - REFRESH_TOKEN_EXPIRY_DAYS=14
+    volumes:
+      - ./data:/app/data
+      - ./keys:/app/keys
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8029/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  tests:
+    build: .
+    depends_on:
+      entra-emulator:
+        condition: service_healthy
+    environment:
+      - EMULATOR_URL=http://entra-emulator:8029
+    command: pytest tests/ -v --tb=short
+    volumes:
+      - ./tests:/app/tests
+    profiles:
+      - testing

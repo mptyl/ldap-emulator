@@ -1,0 +1,11 @@
+Devo emulare il comportamento di Microsoft Emtra, l'applicazione che permette 
+l'autenticazione d utenti Microsoft.
+
+Il mio obiettivo è quello di creare un'applicazione che permette all'utente di accedere 
+ad un ambiente dove ogni utente è registrato come utente Office 365
+
+Fai un piano per creare un'applicazione che implementi lo stesso protocollo utilizzato da Microsoft Entra in modo che la possa utilizzare come simulazione di un ambiente di autenticazione.
+
+L'applicazione deve essere in grado di accettare le richieste di autenticazione e di restituire quanto restituirebbe Microsoft Entra.
+
+Usa Context7 per verificare la documentazione di Microsoft per questa operazione.
